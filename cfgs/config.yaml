@@ -1,0 +1,50 @@
+defaults:
+  - agent: MFD-RN
+  - task@_global_: jaco_reach_box
+  - override hydra/launcher: submitit_local
+name: MFD-RN # agent name
+feature_dim: 64
+batch_size: 256
+action_repeat: 1
+seed: 121 
+device: cuda:1
+# task settings
+frame_stack: 3
+discount: 0.99
+# train settings
+num_seed_frames: 4000
+# eval settings
+eval_every_frames: 10000
+num_eval_episodes: 10
+# snapshot
+save_snapshot: false
+# replay buffer
+replay_buffer_size: 1000000
+replay_buffer_num_workers: 4
+# n-step returns
+nstep: 3
+# propioception
+prop_encoder_type: identity
+state_key: ["jaco_arm/joints_pos", "jaco_arm/joints_vel", "jaco_arm/joints_torque", "jaco_arm/jaco_hand/joints_pos", "jaco_arm/jaco_hand/joints_vel", "jaco_arm/jaco_hand/pinch_site_pos", "jaco_arm/jaco_hand/pinch_site_rmat"]
+# misc
+save_video: true
+save_train_video: false
+use_tb: true
+# experiment
+experiment: exp
+lr: 1e-4
+
+hydra:
+  run:
+    dir: ./exp_local/${now:%Y.%m.%d}/${now:%H%M%S}_${hydra.job.override_dirname}
+  sweep:
+    dir: ./exp/${now:%Y.%m.%d}/${now:%H%M}_${agent_cfg.experiment}
+    subdir: ${hydra.job.num}
+  launcher:
+    timeout_min: 4300
+    cpus_per_task: 10
+    gpus_per_node: 1
+    tasks_per_node: 1
+    mem_gb: 160
+    nodes: 1
+    submitit_folder: ./exp/${now:%Y.%m.%d}/${now:%H%M%S}_${agent_cfg.experiment}/.slurm

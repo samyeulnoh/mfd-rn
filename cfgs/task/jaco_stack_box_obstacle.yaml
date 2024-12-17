@@ -1,0 +1,6 @@
+defaults:
+  - _self_
+num_train_frames: 3001000
+stddev_schedule: 0.2
+
+task_name: jaco_stack_box_obstacle

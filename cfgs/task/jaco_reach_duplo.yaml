@@ -1,0 +1,6 @@
+defaults:
+  - _self_
+num_train_frames: 1001000
+stddev_schedule: 0.2
+
+task_name: jaco_reach_duplo

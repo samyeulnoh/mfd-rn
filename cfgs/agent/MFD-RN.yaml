@@ -1,0 +1,17 @@
+# @package agent
+_target_: agents.${name}.MFDRNAgent
+obs_shape: ???      # to be specified later
+state_shape: ???    # to be specified later
+action_shape: ???   # to be specified later
+device: ${device}
+lr: ${lr}
+prop_encoder_type: ${prop_encoder_type}
+latent_rgb_dim: ${feature_dim}
+latent_prop_dim: ${feature_dim}
+hidden_dim: 1024
+critic_target_tau: 0.01
+num_expl_steps: ??? # to be specified later, 2000
+update_every_steps: 2
+stddev_schedule: ${stddev_schedule}
+stddev_clip: 0.3
+use_tb: ${use_tb}
